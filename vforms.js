@@ -1,10 +1,14 @@
 var VForms = (function () {
   return {
-    getObject: function (formID, clear) {
+    getObject: function (formID, formData) {
 
       event.preventDefault();
 
-      if (typeof formID !== "string") {
+      if (!formData || typeof formData !== "object") {
+        formData = {};
+      }
+
+      if (!formID || typeof formID !== "string") {
         console.log("First param must be a string for form id");
         return;
       }
@@ -18,8 +22,7 @@ var VForms = (function () {
 
       var formElements = form.elements,
         elemTags = ["INPUT", "TEXTFIELD", "SELECT"],
-        ignoreTypes = ["button", "file", "hidden", "image", "reset", "submit"],
-        formData = {};
+        ignoreTypes = ["button", "file", "hidden", "image", "reset", "submit"];
 
       for (var i = 0; i < formElements.length; i++) {
 
@@ -39,22 +42,18 @@ var VForms = (function () {
         }
       }
 
-      if (clear && typeof clear === "boolean") {
-        form.reset();
-      }
-
       return formData;
 
     },
     fillForm: function(formID, formObject) {
 
-  	  if (typeof formID !== "string") {
+      if (typeof formID !== "string") {
         console.log("First param must be a string for form id");
         return;
       }
       if (typeof formObject !== "object") {
-    	console.log("Second param must be an object");
-    	return;
+      console.log("Second param must be an object");
+      return;
       }
 
       var form = document.getElementById(formID);
@@ -66,7 +65,7 @@ var VForms = (function () {
 
       var formElements = form.elements;
   
-  	  for (var i = 0; i < formElements.length; i++) {
+      for (var i = 0; i < formElements.length; i++) {
       
         var elem = formElements[i],
           key = elem.getAttribute("key");
@@ -74,11 +73,11 @@ var VForms = (function () {
         if (formObject.hasOwnProperty(key)) {
           if (elem.type === "radio") {
             if (elem.value === formObject[key]) {
-            	elem.checked = true;
+              elem.checked = true;
             }
           }
           else {
-          	elem.value = formObject[key];
+            elem.value = formObject[key];
           }
         }
       }
@@ -86,18 +85,3 @@ var VForms = (function () {
   };
 
 }());
-
-// var testObject = {
-// 	"street": "98 W 880 N",
-// 	"city": "Provo",
-// 	"state": "UT",
-// 	"country": "Canada",
-// 	"zip_code": "84606"
-// }
-
-// VForms.fillForm("test-form", testObject);
-
-// var run = function () {
-//   var data = Forms.getObject("test-form", false);
-//   console.log(data);
-// };
