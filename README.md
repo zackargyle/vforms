@@ -30,10 +30,11 @@ be used for the key/value pair in your JSON object.
 </form>
 ```
 
-We can fill the form with JSON like this. The first parameter is the form id.
+We can fill the form with JSON like this. The first parameter is the form id. Second parameter is an optional object to use.
 
 ```
 var testObject = {
+  "id": 34,
   "street": "98 W 880 N",
   "city": "Provo",
   "state": "UT",
@@ -48,7 +49,7 @@ And get a JSON object out like this. The second parameter specifies if the form 
 
 ```
 var run = function () {
-  var data = Forms.getObject("test-form", false);
-  console.log(data)
+  testObject = Forms.getObject("test-form", testObject);
+  console.log(testObject)
 };
 ```
